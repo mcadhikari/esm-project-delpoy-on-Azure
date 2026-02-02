@@ -1,14 +1,13 @@
 import os
 from .settings import *
 from .settings import BASE_DIR
+import dj_database_url
 
-# Use WEBSITE_HOSTNAME if available, otherwise fallback to localhost
 
-
-SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
-ALLOWED_HOSTS = ['tribhuj-esm.azurewebsites.net']
+DEBUG = os.getenv("DEBUG", "False").lower() == "true"
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 CSRF_TRUSTED_ORIGINS = ['https://tribhuj-esm.azurewebsites.net']
-
 DEBUG = False
 
 MIDDLEWARE = [
@@ -22,34 +21,16 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-#python manage.py dbshell
-# if connection_string:
-#     parameters = dict(pair.split('=') for pair in connection_string.split())
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.postgresql',
-#             'NAME': parameters['dbname'],
-#             'HOST': parameters['host'],
-#             'USER': parameters['user'],
-#             'PASSWORD': parameters['password'],
-#         }
-#     }
-# else:
-#     DATABASES = {}
-# ---------------- DATABASE (POSTGRESQL) ----------------
+
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_DB'),
-        'USER': os.environ.get('POSTGRES_USER'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-        'HOST': os.environ.get('POSTGRES_HOST'),
-        'PORT': '5432',
-        'OPTIONS': {
-            'sslmode': 'require'
-        }
-    }
+    "default": dj_database_url.parse(
+        os.getenv("DATABASE_URL"),
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
+
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
