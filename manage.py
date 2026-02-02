@@ -3,10 +3,9 @@
 import os
 import sys
 
-
 def main():
     """Run administrative tasks."""
-    settings_module='esm_project.deployment' if 'WEBSITE_HOSTNAME'in os.environ else 'esm_project.settings'
+    settings_module = 'esm_project.deployment' if 'WEBSITE_HOSTNAME' in os.environ else 'esm_project.settings'
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_module)
     try:
         from django.core.management import execute_from_command_line
@@ -18,6 +17,6 @@ def main():
         ) from exc
     execute_from_command_line(sys.argv)
 
-
 if __name__ == '__main__':
     main()
+
