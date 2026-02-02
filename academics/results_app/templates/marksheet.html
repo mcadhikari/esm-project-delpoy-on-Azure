@@ -1,0 +1,125 @@
+{% extends 'accounts/base_admin.html' %}
+{% load static %}
+
+{% block abc %}
+<!-- Load external CSS -->
+<link rel="stylesheet" href="{% static 'css/marksheet.css' %}">
+
+{% if messages %}
+<div class="alert-area">
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+      {{ message }}
+    </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if show_marks_table %}
+<form method="post" class="marks-form" id="marksForm">
+  {% csrf_token %}
+  <input type="hidden" name="class_id" value="{{ class_obj.id }}">
+  <input type="hidden" name="year_id" value="{{ academic_year.id }}">
+  <input type="hidden" name="exam_id" value="{{ exam_type.id }}">
+
+  <!-- Header -->
+  <div class="marks-header">
+    <div class="header-card">
+      <h3 class="header-title">📝 Marks Entry Portal</h3>
+      <div class="header-details">
+        <div class="detail-item">
+          <span class="detail-label">Class:</span>
+          <span class="detail-value">{{ class_obj.class_name_model }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Academic Year:</span>
+          <span class="detail-value">{{ academic_year.years }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Exam:</span>
+          <span class="detail-value">{{ exam_type.exam_type }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="form-controls mb-4">
+    <a href="{% url 'result' %}" class="btn btn-back">
+      <i class="back-icon">⬅</i> Back to Selection
+    </a>
+    <button type="button" id="editBtn" class="btn btn-edit">
+      <i class="edit-icon">✏️</i> Edit
+    </button>
+  </div>
+
+  <!-- Table -->
+  <div class="table-container">
+    <div class="table-wrapper">
+      <table class="marks-table">
+        <thead>
+          <tr>
+            <th>Student</th>
+            {% for subject in subjects %}
+            <th>{{ subject.subject_name_model }}<br>Max: {{ subject.Subject_max_marks_model }}</th>
+            {% endfor %}
+            <th>Total</th>
+            <th>Percentage</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for student in students_data %}
+          <tr class="student-row">
+            <td class="student-name">{{ student.obj.first_name }} {{ student.obj.middle_name }} {{ student.obj.last_name }}<br>ID:{{ student.obj.id }}</td>
+            {% for mark in student.marks_list %}
+            <td class="marks-cell">
+              <input type="number"
+                     min="0"
+                     max="{{ mark.subject.Subject_max_marks_model }}"
+                     name="marks_{{ student.obj.id }}_{{ mark.subject.id }}"
+                     value="{{ mark.value }}"
+                     {% if mark.disabled %}disabled class="marks-input locked-input"{% else %}class="marks-input"{% endif %}>
+            </td>
+            {% endfor %}
+            <td class="total-cell">{{ student.total }}</td>
+            <td class="percent-cell">{{ student.percent }}%</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Save -->
+  <div class="save-section">
+    <button type="submit" class="btn-save">💾 Save Marks</button>
+  </div>
+</form>
+
+<!-- JS -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const editBtn = document.getElementById('editBtn');
+    const marksInputs = document.querySelectorAll('.marks-input');
+    editBtn.addEventListener('click', function() {
+        marksInputs.forEach(input => {
+            if(input.disabled){
+                input.disabled = false;
+                input.classList.remove('locked-input');
+            }
+        });
+    });
+
+    // Auto-hide alerts
+    const alerts = document.querySelectorAll('.alert');
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.style.transition = 'opacity 0.5s ease';
+            alert.style.opacity = '0';
+            setTimeout(() => alert.remove(), 500);
+        }, 2000);
+    });
+});
+</script>
+{% endif %}
+{% endblock %}

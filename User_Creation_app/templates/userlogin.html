@@ -1,0 +1,39 @@
+
+{%include 'cdnalink.html'%}
+ {%include 'nav.html'%} 
+
+{%block content%}
+<div class="container py-10">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow">
+                <div class="card-header text-center bg-dark text-white">
+                    <h2><i class="fas fa-user-shield"></i> Login</h2>
+                </div>
+                <div class="card-body p-10">
+                    {%if error%}
+                    <div class="alert alert-danger text-center">{{error}}</div>
+                    {%endif%}
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class='mb-3'>
+                            <label for="email" class="form-label"> <i class="fas fa-user"> </i> Username</label>
+                            <input type="text" class="form-control" id="email" name="username"
+                                placeholder="enter username" required>
+                        </div>
+                        <div class='mb-3'>
+                            <label for="password" class="form-label"> <i class="fas fa-user"> </i> Password</label>
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="Password" required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-50 d-block mx-auto"><i
+                                class="fas fa-sign-in-alt"></i> Login</button>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%} 

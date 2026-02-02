@@ -1,0 +1,98 @@
+{% extends 'accounts/base_admin.html' %}
+{% block abc %}
+  <!-- <main class="main-content">
+        <div class="content-wrapper fade-in"> -->
+            <!-- Dashboard Header -->
+            <div class="dashboard-header">
+                <h1><i class="fas fa-tachometer-alt me-3"></i>Admin Dashboard</h1>
+                <p>Together We Can</p>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="row g-4 mb-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="stats-card students">
+                        <div class="stats-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="stats-number">1,234</div>
+                        <div class="stats-label">Total Students</div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="stats-card classes">
+                        <div class="stats-icon">
+                            <i class="fas fa-chalkboard"></i>
+                        </div>
+                        <div class="stats-number">56</div>
+                        <div class="stats-label">Total Classes</div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="stats-card subjects">
+                        <div class="stats-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="stats-number">89</div>
+                        <div class="stats-label">Total Subjects</div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="stats-card results">
+                        <div class="stats-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stats-number">342</div>
+                        <div class="stats-label">Results Published</div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="stats-card notices">
+                        <div class="stats-icon">
+                            <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <div class="stats-number">15</div>
+                        <div class="stats-label">Active Notices</div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="stats-card teachers">
+                        <div class="stats-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="stats-number">78</div>
+                        <div class="stats-label">Total Teachers</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h4><i class="fas fa-rocket me-2"></i>Quick Actions</h4>
+                <div class="row g-3">
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{%url 'addstudent%'}" class="action-btn" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                            <i class="fas fa-user-plus me-2"></i>Add New Student
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{%url 'createclass%'}"" class="action-btn" style="background: linear-gradient(135deg, #3498db, #2980b9);">
+                            <i class="fas fa-plus me-2"></i>Create New Class
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <a href="#add-notice" class="action-btn" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                            <i class="fas fa-bullhorn me-2"></i>Post New Notice
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <a href="#add-result" class="action-btn" style="background: linear-gradient(135deg, #f39c12, #e67e22);">
+                            <i class="fas fa-chart-bar me-2"></i>Add Results
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+   
+{% endblock %}

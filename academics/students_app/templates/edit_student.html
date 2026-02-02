@@ -1,0 +1,200 @@
+{% extends 'accounts/base_admin.html' %}
+{% include 'index.html' %}
+{%load static%}
+{% block abc %}
+
+<h2 class="mb-4"><i class="fas fa-edit" style="color:rgba(199, 143, 53, 0.805)" ;></i> Edit Student</h2>
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
+<form method="post" enctype="multipart/form-data" autocomplete="off" class="student-form" id="editstudent">
+    {% csrf_token %}
+
+    <!-- First row: First Name, Middle Name, Last Name -->
+    <div class="form-row">
+        <div class="form-group">
+            <label for="{{ form.first_name.id_for_label }}">First Name</label>
+            {{ form.first_name }}
+            {% if form.first_name.errors %}
+            <div class="error">{{ form.first_name.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.middle_name.id_for_label }}">Middle Name</label>
+            {{ form.middle_name }}
+            {% if form.middle_name.errors %}
+            <div class="error">{{ form.middle_name.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.last_name.id_for_label }}">Last Name</label>
+            {{ form.last_name }}
+            {% if form.last_name.errors %}
+            <div class="error">{{ form.last_name.errors }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Second row: DOB, Roll, Student Class -->
+    <div class="form-row">
+        <div class="form-group">
+            <label for="{{ form.dob.id_for_label }}">Date of Birth</label>
+            {{ form.dob }}
+            {% if form.dob.errors %}
+            <div class="error">{{ form.dob.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">Email</label>
+            {{ form.email }}
+            {% if form.roll.errors %}
+            <div class="error">{{ form.roll.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.student_class.id_for_label }}">Class</label>
+            {{ form.student_class }}
+            {% if form.student_class.errors %}
+            <div class="error">{{ form.student_class.errors }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Third row: Gender, Photo Upload, Birth Certificate Upload -->
+    <div class="form-row">
+        <div class="form-group">
+            <label for="{{ form.gender.id_for_label }}">Gender</label>
+            {{ form.gender }}
+            {% if form.gender.errors %}
+            <div class="error">{{ form.gender.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.photo.id_for_label }}">Photo</label>
+            {{ form.photo }}
+            {% if form.photo.errors %}
+            <div class="error">{{ form.photo.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.birth_certificate.id_for_label }}">Birth Certificate</label>
+            {{ form.birth_certificate }}
+            {% if form.birth_certificate.errors %}
+            <div class="error">{{ form.birth_certificate.errors }}</div>
+            {% endif %}
+        </div>
+
+    </div>
+    <!-- fourth row: DOB, Roll, Student Class -->
+    <div class="form-row">
+        <div class="form-group">
+            <label for="{{ form.dob.id_for_label }}">Gurdian/Parent</label>
+            {{ form.parents_name }}
+            {% if form.parents_name.errors %}
+            <div class="error">{{ form.parents_name.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.roll.id_for_label }}">Parents/Gurdian Phone</label>
+            {{ form.p_phone }}
+            {% if form.p_phone.errors %}
+            <div class="error">{{ form.p_phone.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.roll.id_for_label }}">Address</label>
+            {{ form.address }}
+            {% if form.address.errors %}
+            <div class="error">{{ form.address.errors }}</div>
+            {% endif %}
+        </div>
+
+    </div>
+    <button type="submit" class="btn-submit">Update</button>
+    <a a href="{% url 'managestudent' %}" class="btn btn-secondary" style="float: right;">
+        <i class="fas fa-arrow-left"></i> Back
+
+
+        <style>
+            .student-form {
+                max-width: 1000px;
+                margin: 20px auto;
+                font-family: Arial, sans-serif;
+            }
+
+            .form-row {
+                display: flex;
+                justify-content: space-between;
+                gap: 10px;
+                margin-bottom: 5px;
+            }
+
+            .form-group {
+                flex: 2;
+                display: flex;
+                flex-direction: column;
+            }
+
+            label {
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+
+            input,
+            select {
+                padding: 4px;
+                font-size: 1rem;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+
+            .error {
+                color: #d9534f;
+                font-size: 0.9rem;
+                margin-top: 4px;
+            }
+
+            .message {
+                padding: 10px;
+                background-color: #dff0d8;
+                border: 1px solid #3c763d;
+                color: #3c763d;
+                margin-bottom: 20px;
+                border-radius: 4px;
+            }
+
+            .btn-submit {
+                padding: 5px 10px;
+                font-size: 1.1rem;
+                background-color: #0275d8;
+                color: white;
+                border: none;
+                border-radius: 2px;
+                cursor: pointer;
+            }
+
+            .btn-submit:hover {
+                background-color: #025aa5;
+            }
+
+            @media (max-width: 600px) {
+                .form-row {
+                    flex-direction: column;
+                    gap: 10px;
+                }
+            }
+        </style>
+</form>
+
+{% endblock %}

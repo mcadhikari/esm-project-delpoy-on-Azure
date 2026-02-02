@@ -1,0 +1,85 @@
+{% extends 'accounts/base_admin.html' %}
+{% include 'index.html' %}
+
+{% block abc %}
+
+<div id="printable-area" style="padding:20px; background: #f9f9f9; border-radius: 8px; max-width: 800px; margin: auto;">
+
+  <h2 style="text-align:center; margin-bottom: 20px;">View Student Detail</h2>
+
+  <p><strong>Full Name:</strong> 
+    {{ student.first_name|upper }} 
+    {% if student.middle_name %} {{ student.middle_name|upper }} {% endif %} 
+    {{ student.last_name|upper }}
+  </p>
+  
+  <p><strong>Date of Birth:</strong> {{ student.dob }}</p>
+  <p><strong>Email:</strong> {{ student.email }}</p>
+  <p><strong>Class:</strong> {{ student.student_class }}</p>
+  <p><strong>Gender:</strong> {{ student.gender }}</p>
+  <p><strong>Parents Name:</strong> {{ student.parents_name }}</p>
+  <p><strong>Phone:</strong> {{ student.p_phone }}</p>
+  <p><strong>Address:</strong> {{ student.address }}</p>
+
+  <!-- Display photo top right like CV -->
+  {% if student.photo %}
+  <div style="float:right; margin-left:20px; max-width:200px; max-height:200px; border:1px solid #ccc; padding:5px; border-radius: 4px;">
+    <img src="{{ student.photo.url }}" alt="Photo of {{ student.first_name }}" 
+         style="width:100%; height:auto; object-fit:cover; border-radius: 4px;">
+  </div>
+  {% endif %}
+
+  <!-- Show birth certificate document link -->
+  {% if student.birth_certificate %}
+  <p><strong>Birth Certificate:</strong> 
+    <a href="{{ student.birth_certificate.url }}" target="_blank">View Document</a>
+  </p>
+  {% endif %}
+
+  <div style="clear: both;"></div> <!-- Clear float -->
+
+</div>
+
+<!-- Buttons below the detail section -->
+<div style="max-width: 800px; margin: 20px auto; text-align: center;">
+  <a href="{% url 'managestudent' %}" class="btn btn-primary" style="margin-right: 10px;">
+    ← Back to Student List
+  </a>
+  <button onclick="window.print()" class="btn btn-secondary">
+    🖨️ Print
+  </button>
+</div>
+
+<!--
+  CSS print rules:
+  - Hide everything by default on print
+  - Show only the content inside #printable-area
+-->
+<style>
+  @media print {
+    /* Hide all elements */
+    body * {
+      visibility: hidden;
+    }
+    /* Show only the printable area and its children */
+    #printable-area, #printable-area * {
+      visibility: visible;
+    }
+    /* Position printable area at top-left */
+    #printable-area {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      background: white;
+    }
+    /* Hide the print and back buttons */
+    button, a.btn {
+      display: none !important;
+    }
+  }
+</style>
+
+{% endblock %}

@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Management System - Complete Admin Panel</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: #1e3a8a;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.4rem;
+            color: white !important;
+        }
+
+        /* Sidebar Styles */
+        .sidebar-container {
+            position: fixed;
+            top: 76px;
+            left: 0;
+            width: 260px;
+            height: calc(100vh - 76px);
+            background: rgb(41, 126, 184);
+            overflow-y: auto;
+            z-index: 999;
+             border-right: 2px solid #e0e0e0;
+        }
+
+        /* Admin Profile Section */
+        .admin-profile {
+            background: #1e316f;
+            padding: 0.5rem;
+            text-align: center;
+            border-bottom: 1px solid #2563eb;
+        }
+
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.3rem;
+        }
+
+        .profile-img i {
+            font-size: 1rem;
+            color: white;
+        }
+
+        .admin-name {
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            padding: 0.5rem 0;
+        }
+
+        .menu-item {
+            margin-bottom: 0;
+        }
+
+        .menu-btn {
+            width: 100%;
+            padding: 0.4rem 0.8rem;
+            border: none;
+            background: transparent;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1rem;
+            color:white;
+            text-decoration: none;
+            display: block;
+        }
+
+        .menu-btn:hover {
+            background: #0f2467;
+            color: white;
+            text-decoration: none;
+        }
+
+        .menu-btn i {
+            margin-right: 0.5rem;
+            width: 16px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .chevron {
+            float: right;
+            font-size: 0.7rem;
+        }
+
+        .menu-btn[aria-expanded="true"] {
+            background: #0a1a4f;
+            color: white;
+        }
+
+        /* Submenu Styles */
+        .submenu {
+            background: #030818;
+            border-left: 2px solid #2563eb;
+        }
+
+        .submenu .nav-link {
+            color: #d1d5db;
+            padding: 0.3rem 0.8rem 0.3rem 2rem;
+            font-size: 0.75rem;
+            text-decoration: none;
+            display: block;
+        }
+
+        .submenu .nav-link:hover {
+            color: white;
+            background: #05102e;
+            text-decoration: none;
+        }
+
+        .submenu .nav-link i {
+            margin-right: 0.4rem;
+            font-size: 0.7rem;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            margin-left: 260px;
+            min-height: calc(100vh - 76px);
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .content-wrapper {
+            padding: .5rem;
+        }
+
+        /* Dashboard Cards */
+        .dashboard-header {
+            background: #495057;
+            color: white;
+            padding: 0.3rem;
+            border-radius: 8px;
+            margin-bottom: .5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .dashboard-header h1 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: .1rem;
+        }
+
+        .dashboard-header p {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+            border: 1px solid #e9ecef;
+            height: 50%;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .stats-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1rem;
+            color: white;
+            background: #6c757d;
+        }
+
+        .stats-number {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Navbar buttons */
+        .navbar-nav .btn {
+            margin-left: 0.5rem;
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .navbar-nav .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .sidebar-container {
+                left: -260px;
+                transition: left 0.3s ease;
+            }
+
+            .sidebar-container.show {
+                left: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+
+            .content-wrapper {
+                padding: 1rem;
+            }
+        }
+
+        /* Quick Actions Section */
+        .quick-actions {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .quick-actions h3 {
+            color: #495057;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .action-btn {
+            padding: 0.75rem;
+            border-radius: 4px;
+            border: none;
+            background: #6c757d;
+            color: white;
+            font-weight: 500;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            transition: all 0.01s ease;
+            margin-bottom: 0.5rem;
+        }
+
+        .action-btn:hover {
+            background: #5a6268;
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#dashboard">
+                <i class="fas fa-graduation-cap me-2"></i>School Management System
+            </a>
+            
+            <button class="navbar-toggler d-md-none" type="button" onclick="toggleSidebar()">
+                <i class="fas fa-bars text-white"></i>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="btn btn-outline-warning text-white" href="{% url 'admin-dashboard-content'%}">
+                            <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-outline-danger text-white" href="#logout">
+                            <i class="fas fa-sign-out-alt me-1"></i>Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <nav class="sidebar-container" id="sidebar">
+        <!-- Admin Profile Section -->
+        <div class="admin-profile">
+            <div class="profile-img">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <h5 class="admin-name">Admin,Mohan</h5>
+           
+        </div>
+
+        <!-- Menu Section -->
+        <div class="menu-section">
+            <!-- Teacher Management -->
+            <div class="menu-item">
+                <button class="menu-btn" type="button" data-bs-toggle="collapse" 
+                        data-bs-target="#teacherMenu" aria-expanded="false">
+                    <i class="fas fa-chalkboard-teacher"></i>Teacher Management
+                    <i class="fas fa-chevron-down chevron"></i>
+                </button>
+                <div class="collapse submenu" id="teacherMenu">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-plus"></i>Add Teacher
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-table"></i>Manage Teacher
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-chart-bar"></i>Teacher Reports
+                    </a>
+                </div>
+            </div>
+
+            <!-- Student Management -->
+            <div class="menu-item">
+                <button class="menu-btn" type="button" data-bs-toggle="collapse" 
+                        data-bs-target="#studentMenu" aria-expanded="false">
+                    <i class="fas fa-user-graduate"></i>Student Management
+                    <i class="fas fa-chevron-down chevron"></i>
+                </button>
+                <div class="collapse submenu" id="studentMenu">
+                    <a href="{% url 'addstudent'%}" class="nav-link">
+                        <i class="fas fa-plus"></i>Add Student
+                    </a>
+                    <a href="{%url 'managestudent'%}" class="nav-link">
+                        <i class="fas fa-table"></i>Manage Students
+                    </a>
+                    <a href="#student-reports" class="nav-link">
+                        <i class="fas fa-chart-bar"></i>Student Reports
+                    </a>
+                </div>
+            </div>
+
+            <!-- Class Management -->
+            <div class="menu-item">
+                <button class="menu-btn" type="button" data-bs-toggle="collapse" 
+                        data-bs-target="#classMenu" aria-expanded="false">
+                    <i class="fas fa-chalkboard"></i>Class Management
+                    <i class="fas fa-chevron-down chevron"></i>
+                </button>
+                <div class="collapse submenu" id="classMenu">
+                    <a href="{% url 'createclass'%}" class="nav-link">
+                        <i class="fas fa-plus"></i>Add Class
+                    </a>
+                    <a href="{% url 'manageclass'%}"class="nav-link">
+                        <i class="fas fa-table"></i>Manage Classes
+                    </a>
+                    <a href="#class-schedules" class="nav-link">
+                        <i class="fas fa-calendar-alt"></i>Class Schedules
+                    </a>
+                </div>
+            </div>
+
+            <!-- Subject Management -->
+            <div class="menu-item">
+                <button class="menu-btn" type="button" data-bs-toggle="collapse" 
+                        data-bs-target="#subjectMenu" aria-expanded="false">
+                    <i class="fas fa-book"></i>Subject Management
+                    <i class="fas fa-chevron-down chevron"></i>
+                </button>
+                <div class="collapse submenu" id="subjectMenu">
+                    <a href="{%url 'createsubject'%}" class="nav-link">
+                        <i class="fas fa-plus"></i>Add Subject
+                    </a>
+                    <a href="{%url 'managesubject'%}" class="nav-link">
+                        <i class="fas fa-list"></i>Manage Subjects
+                    </a>
+                    <a href="#add-combination" class="nav-link">
+                        <i class="fas fa-layer-group"></i>Add Subject Combination
+                    </a>
+                    <a href="#manage-combination" class="nav-link">
+                        <i class="fas fa-layer-group"></i>Manage Combinations
+                    </a>
+                </div>
+            </div>
+
+            <!-- Result Management -->
+            <div class="menu-item">
+                <button class="menu-btn" type="button" data-bs-toggle="collapse" 
+                        data-bs-target="#resultMenu" aria-expanded="false">
+                    <i class="fas fa-chart-line"></i>Result Management
+                    <i class="fas fa-chevron-down chevron"></i>
+                </button>
+                <div class="collapse submenu" id="resultMenu">
+                    <a href="{%url 'result'%}" class="nav-link">
+                        <i class="fas fa-plus"></i>Add Result
+                    </a>
+                    <a href="#manage-results" class="nav-link">
+                        <i class="fas fa-table"></i>Manage Results
+                    </a>
+                    <a href="#result-analytics" class="nav-link">
+                        <i class="fas fa-analytics"></i>Result Analytics
+                    </a>
+                </div>
+            </div>
+
+            <!-- Notice Management -->
+            <div class="menu-item">
+                <button class="menu-btn" type="button" data-bs-toggle="collapse" 
+                        data-bs-target="#noticeMenu" aria-expanded="false">
+                    <i class="fas fa-bullhorn"></i>Notice Management
+                    <i class="fas fa-chevron-down chevron"></i>
+                </button>
+                <div class="collapse submenu" id="noticeMenu">
+                    <a href="#add-notice" class="nav-link">
+                        <i class="fas fa-plus"></i>Add Notice
+                    </a>
+                    <a href="#manage-notice" class="nav-link">
+                        <i class="fas fa-table"></i>Manage Notices
+                    </a>
+                    <a href="#broadcast-notice" class="nav-link">
+                        <i class="fas fa-broadcast-tower"></i>Broadcast Notice
+                    </a>
+                </div>
+            </div>
+
+            <!-- Change Password -->
+            <div class="menu-item">
+                <a href="#change-password" class="menu-btn">
+                    <i class="fas fa-key"></i>Change Password
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-wrapper">
+            {%block abc%}
+             {%endblock%}
+        </div>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('show');
+        }
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const toggleButton = document.querySelector('.navbar-toggler');
+            
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(event.target) && !toggleButton.contains(event.target)) {
+                    sidebar.classList.remove('show');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+{% extends 'accounts/base_admin.html' %}
+{% include 'index.html' %}
+
+{% block abc %}
+<div>
+    <h2 class="mb-4"><i class="fas fa-edit"></i> Edit Created Class</h2>
+
+    {% if messages %}
+    {% for message in messages %}
+    <div style="
+                display: inline-block; 
+                padding: 2px 4px;
+                margin-bottom: 10px; 
+                border-radius: 4px; 
+                color: white;
+                background-color:
+                    {% if message.tags == 'success' %}green
+                    {% elif message.tags == 'error' %}red
+                    {% else %}gray
+                    {% endif %}
+                ;">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <form method="POST" autocomplete="off">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="ClassName"><strong>Class Name</strong></label>
+            <input type="text" class="col-md-4 form-control form-control-sm" id="ClassName" name="editclass_class_name"
+                required placeholder="Class Standard" value="{{class_edit.class_name_model}}">
+        </div>
+
+        <div class="mb-3">
+            <label for="ClassNameNumeric"><strong>Class Name (in number)</strong></label>
+            <input type="text" class="col-md-4 form-control form-control-sm" id="ClassNameNumeric"
+                name="editclass_class_numeric" required placeholder="e.g. 1, 2, 3"
+                value="{{class_edit.class_numeric_model}}">
+        </div>
+
+        <div class="mb-3">
+            <label for="ClassSection"><strong>Section</strong></label>
+            <input type="text" class="col-md-4 form-control form-control-sm" id="ClassSection"
+                name="editclass_class_section" required placeholder="Class Section"
+                value="{{class_edit.class_section_model}}">
+        </div>
+
+        <button type="submit" class="btn btn-success">
+            <i class="fas fa-check-circle me-3"></i> Edit
+        </button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Student Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'teacher_templates/sidebar.css' %}">
+    {% include 'admin_templates/basehtml/cdnalink.html' %}
+</head>
+
+<body>
+    <div>
+      {% include 'admin_templates/basehtml/header.html' %}
+    </div>
+    <!-- ✅ Content wrapper for sidebar + main content -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h3>Student Portal</h3>
+          <p>Welcome, {{ request.user.createstudent.first_name }} 
+            {{ request.user.createstudent.middle_name }} {{ request.user.createstudent.last_name }}</p>
+            <ul>
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">My Profile</a></li>
+                <li><a href="#">Courses</a></li>
+                <li><a href="#">Grades</a></li>
+                <li><a href="#">Settings</a></li>
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            {% block std %}
+
+            {% endblock %}
+        </div>
+    </div>
+
+</body>
+
+</html>

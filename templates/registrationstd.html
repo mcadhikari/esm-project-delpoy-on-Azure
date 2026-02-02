@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register Student</title>
+
+    <!-- Include your CDN links and CSS -->
+    {% include 'basehtml/cdnalink.html' %}
+
+    <!-- Your page specific CSS -->
+    <link rel="stylesheet" href="{% static 'css/registrationstd.css' %}" />
+</head>
+
+<body>
+
+    <!-- Header and Navigation -->
+    {% include 'basehtml/header.html' %}
+    {% include 'nav.html' %}
+
+    <main class="container">
+        <h7 style="color:rgb(209, 150, 150)">Please Register Below</h7>
+
+        <div class="form-column">
+            <form method="POST" class="styled-form">
+                {% csrf_token %}
+                <h5 style="display: inline-block; padding-bottom: 2px; border-bottom: 2px solid #2565ae;">
+                    Personal Information
+                </h5>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        {{ form.first_name.label_tag }} {{ form.first_name }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.middle_name.label_tag }} {{ form.middle_name }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.sur_name.label_tag }} {{ form.sur_name }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.address.label_tag }} {{ form.address }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.birth_citizen_no.label_tag }} {{ form.birth_citizen_no }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form.father_name.label_tag }} {{ form.father_name }}
+                </div>
+                <div class="form-group">
+                    {{ form.previous_school_name.label_tag }} {{ form.previous_school_name }}
+                </div>
+
+                <button type="submit" class="btn-submit">See Preview</button>
+                <button type="reset" class="btn-clear">Clear</button>
+            </form>
+        </div>
+
+        <div class="confirmation-column">
+            <div class="confirmation-head">
+                <h5 style="display: inline-block; padding-bottom: 2px; border-bottom: 2px solid #2565ae;">
+                    Preview Confirm & Save Your Details
+                </h5>
+                <div class="confirmation-panel">
+                    <p><strong>First Name:</strong> {{ form_data.first_name|upper }}</p>
+                    <p><strong>Middle Name:</strong> {{ form_data.middle_name|upper }}</p>
+                    <p><strong>Last Name:</strong> {{ form_data.sur_name|upper }}</p>
+                    <p><strong>Father's Name:</strong> {{ form_data.father_name|capfirst }}</p>
+                    <p><strong>Address:</strong> {{ form_data.address|capfirst }}</p>
+                    <p><strong>Citizenship/Birth Cert No:</strong> {{ form_data.birth_citizen_no }}</p>
+                    <p><strong>Previous School:</strong> {{ form_data.previous_school_name|capfirst }}</p>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">Click to Submit</button>
+        </div>
+    </main>
+
+    <!-- Optionally add footer here -->
+    {% include 'basehtml/footer.html' %}
+
+</body>
+
+</html>

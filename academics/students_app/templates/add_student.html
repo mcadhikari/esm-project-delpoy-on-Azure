@@ -1,0 +1,237 @@
+{% extends 'accounts/base_admin.html' %}
+{% include 'index.html' %}
+
+{% block abc %}
+
+<h2>Add Student</h2>
+
+   
+
+<!-- Display Django messages -->
+{% if messages %}
+    {% for message in messages %}
+        <div class="message alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<form method="post" enctype="multipart/form-data" autocomplete="off" class="student-form" id="studentForm">
+    {% csrf_token %}
+<div class="select-class">
+    <div class="form-group">
+        <label for="id_createstudent_fk_createclassmodel">Class</label>
+        {{ form.createstudent_fk_createclassmodel}}
+    </div> 
+</div>
+    <!-- First row: First Name, Middle Name, Last Name -->
+    <div class="form-row">
+        <div class="form-group">
+            <label for="{{ form.first_name.id_for_label }}">First Name</label>
+            {{ form.first_name }}
+            {% if form.first_name.errors %}
+                <div class="error">{{ form.first_name.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.middle_name.id_for_label }}">Middle Name</label>
+            {{ form.middle_name }}
+           
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.last_name.id_for_label }}">Last Name</label>
+            {{ form.last_name }}
+            
+        </div>
+    </div>
+
+    <!-- Second row: DOB, Email, Class -->
+    <div class="form-row">
+        <div class="form-group">
+            <label for="{{ form.dob.id_for_label }}">Date of Birth</label>
+            {{ form.dob }}
+           
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">E-mail</label>
+            {{ form.email }}
+            
+        </div>
+         <div class="form-group">
+            <label for="id_createstudent_fk_createsubject">Subject    (*Select Class first)</label>
+            {{ form.createstudent_fk_createsubject }}
+         
+        </div>
+
+        
+    </div>
+
+    <!-- Third row: Gender, Photo, Birth Certificate -->
+    <div class="form-row">
+        <div class="form-group">
+            <label for="{{ form.gender.id_for_label }}">Gender</label>
+            {{ form.gender }}
+           
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.photo.id_for_label }}">Photo</label>
+            {{ form.photo }}
+           
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.birth_certificate.id_for_label }}">Birth Certificate</label>
+            {{ form.birth_certificate }}
+           
+        </div>
+    </div>
+
+    <!-- Fourth row: Parent/Guardian info -->
+    <div class="form-row">
+        <div class="form-group">
+            <label for="{{ form.parents_name.id_for_label }}">Guardian/Parent</label>
+            {{ form.parents_name }}
+            
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.p_phone.id_for_label }}">Parent Phone</label>
+            {{ form.p_phone }}
+            
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.address.id_for_label }}">Address</label>
+            {{ form.address }}
+          
+        </div>
+       
+    </div>
+{% if form.errors %}
+<div class="alert alert-danger">
+    <strong>Form Errors:</strong>
+    <ul>
+        {% for field, errors in form.errors.items %}
+            <li>{{ field }}: {{ errors|join:", " }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+    <button type="submit" class="btn-submit">Save</button>
+</form>
+
+<style>
+    .select-class {
+        display: flex;
+        justify-content: left;
+        max-width: 300px;
+        margin: 40px left;
+ 
+    }
+.student-form {
+    max-width: 1000px;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.form-group {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input, select {
+    padding: 4px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.error {
+    color: #d9534f;
+    font-size: 0.9rem;
+    margin-top: 4px;
+}
+
+.message {
+    padding: 10px;
+    background-color: #dff0d8;
+    border: 1px solid #3c763d;
+    color: #3c763d;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.btn-submit {
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    background-color: #0275d8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-submit:hover {
+    background-color: #025aa5;
+}
+
+@media (max-width: 600px) {
+    .form-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+</style>
+<!-- JQuery load (make sure jQuery is included) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const classSelect = document.getElementById('id_createstudent_fk_createclassmodel');
+    const subjectSelect = document.getElementById('id_createstudent_fk_createsubject');
+
+    classSelect.addEventListener('change', function() {
+        const classId = this.value;
+
+        // Clear previous subjects
+        subjectSelect.innerHTML = '<option value="">Select class</option>';
+
+        if (classId) {
+            // Fetch subjects from Django view
+            fetch(`{% url 'get_subjects' %}?class_id=${classId}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.subjects.forEach(subject => {
+                        const option = document.createElement('option');
+                        option.value = subject.id;
+                        option.textContent = subject.name;
+                        subjectSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching subjects:', error);
+                });
+        }
+    });
+});
+</script>
+
+{%endblock%}

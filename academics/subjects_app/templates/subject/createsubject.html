@@ -1,0 +1,64 @@
+
+{% extends 'accounts/base_admin.html' %}
+{% include 'index.html' %}
+{% load static %}
+
+{% block abc %}
+<div>
+    <h2 class="mb-4"><i class="fas fa-book me-3"></i> Create Subject</h2>
+
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+
+    <form method="POST" autocomplete="off">
+        {% csrf_token %}
+
+        <!-- Dropdown for class selection -->
+    <div class="mb-3">
+        <label for="studentClass"><strong>Select Class</strong></label>
+        <select name="student_class" id="studentClass" class="form-control col-md-4" required>
+            <option value="">-- Select Class --</option>
+            {% for cls in classes %}
+                <option value="{{ cls.class_name_model }}">{{ cls.class_name_model }}</option>
+
+            {% endfor %}
+        </select>
+    </div>
+
+         
+        
+        <div class="mb-3">
+            <label for="subjectName"><strong>Subject Name</strong></label>
+            <input type="text" class="col-md-4 form-control form-control-sm" 
+                   id="subjectName" name="subject_name_form" 
+                   required placeholder="Subject Name e.g. 'Math', 'English'">
+        </div>
+
+        <div class="mb-3">
+            <label for="subjectCode"><strong>Subject Code (in number)</strong></label>
+            <input type="text" class="col-md-4 form-control form-control-sm" 
+                   id="subjectCode" name="subject_code_form" 
+                   required placeholder="e.g. 1, 2, 3">
+        </div>
+
+        <button type="submit" class="btn btn-success">
+            <i class="fas fa-check-circle me-2"></i> Submit
+        </button>
+    </form>
+    <script>
+  setTimeout(function() {
+      const alerts = document.querySelectorAll('.alert');
+      alerts.forEach(alert => alert.remove()); // completely remove the element
+  }, 3000); // disappears after 3 seconds
+</script>
+</div>
+
+{% endblock %}
+

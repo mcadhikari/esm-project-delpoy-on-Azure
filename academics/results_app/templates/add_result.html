@@ -1,0 +1,63 @@
+{% extends 'accounts/base_admin.html' %}
+{% load static%}
+
+{% block abc %}
+<link rel="stylesheet" href="{% static 'css/result.css' %}">
+<div class="page-header">
+    <h2 class="page-title">📋 Select Class, Year, and Exam</h2>
+    <p class="page-subtitle">Choose the parameters to enter student marks</p>
+</div>
+
+<form method="post" action="{% url 'marksheet' %}" class="form-container">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <label for="class_field" class="form-label">
+            <span class="label-icon">🏫</span>
+            Class:
+        </label>
+        <select name="class_field" id="class_field" required class="form-select">
+            <option value="">Select Class</option>
+            {% for cls in classes %}
+                <option value="{{ cls.id }}">{{ cls.class_name_model }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="academic_year" class="form-label">
+            <span class="label-icon">📅</span>
+            Academic Year:
+        </label>
+        <select name="academic_year" id="academic_year" required class="form-select">
+            <option value="">Select Year</option>
+            {% for yr in year %}
+                <option value="{{ yr.id }}">{{ yr.years }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="exam_type" class="form-label">
+            <span class="label-icon">📝</span>
+            Exam Type:
+        </label>
+        <select name="exam_type" id="exam_type" required class="form-select">
+            <option value="">Select Exam</option>
+            {% for ex in exam_type %}
+                <option value="{{ ex.id }}">{{ ex.exam_type }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-submit">
+        <button type="submit" class="btn btn-primary btn-lg">
+            <span class="btn-icon">🚀</span>
+            Go to Marks Entry
+        </button>
+    </div>
+</form>
+
+
+
+{% endblock %}
