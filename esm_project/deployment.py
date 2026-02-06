@@ -28,7 +28,8 @@ MIDDLEWARE = [
 
 DATABASES = {
     "default": dj_database_url.parse(
-        os.getenv("DATABASE_URL"),
+        #os.getenv("DATABASE_URL"),
+         os.getenv("DATABASE_URL", "postgres://postgresadmin:Mirlung%4012@esm-postgres-server.postgres.database.azure.com:5432/esm_database"),
         conn_max_age=600,
         ssl_require=True
     )
